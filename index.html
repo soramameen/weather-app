@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>岡山の天気</title>
+    <!-- Bootstrap CSSのCDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1HIcQr+Z4p2ym3L8MkHjE/9Z3GZONhm8f+BBK3U8g4r"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap IconsのCDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <!-- カスタムCSS -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div
+      class="container vh-100 d-flex justify-content-center align-items-center"
+    >
+      <div class="card text-center p-4 shadow">
+        <h1 class="card-title mb-4">岡山の天気</h1>
+        <div id="weather" class="card-body">
+          <p class="card-text fs-4">読み込み中...</p>
+        </div>
+        <button id="toggle-theme" class="btn btn-outline-secondary mt-3">
+          ダークモード
+        </button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Bootstrap JSと依存関係（Popper.js）のCDN -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+3o5pG9Bhv5kYsXxG5Ce+IGbN1g0"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
