@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const weatherDiv = document.getElementById("weather");
   const toggleButton = document.getElementById("toggle-theme");
+  const refreshButton = document.getElementById("refresh"); // 天気更新ボタン
 
-  // サーバーサイドプロキシのURL（Netlifyの場合）
-  const proxyUrl =
-    "https://your-netlify-site.netlify.app/.netlify/functions/proxy?url=";
+  // OpenWeatherMapのAPIキー（クライアント側に埋め込む）
+  const weatherApiKey = "d16c209e8002f3d569bdace463505fe4"; // ここに取得したAPIキーを入力
 
-  // 気象庁の岡山の天気XMLデータのURL
-  const jmaUrl = "https://www.jma.go.jp/bosai/forecast/data/forecast/okyo.xml";
+  // 天気のAPIエンドポイント
+  const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Okayama,jp&appid=${weatherApiKey}&units=metric&lang=ja`;
 
   // 天気の状態に応じたアイコンのマッピング（Bootstrap Iconsを使用）
   const weatherIcons = {
@@ -15,49 +15,36 @@ document.addEventListener("DOMContentLoaded", () => {
     曇り: "bi-cloud-fill",
     雨: "bi-cloud-rain-fill",
     雪: "bi-cloud-snow-fill",
-    // 他の天気状態を追加
+    雷雨: "bi-cloud-lightning-fill",
+    霧: "bi-cloud-fog-fill",
+    // 必要に応じて他の天気状態を追加
   };
 
+  // 天気情報を取得して表示する関数
   const fetchWeather = () => {
     weatherDiv.innerHTML = '<p class="card-text fs-4">読み込み中...</p>';
 
-    fetch(`${proxyUrl}${encodeURIComponent(jmaUrl)}`)
-      .then((response) => response.text())
-      .then((str) => {
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(str, "application/xml");
-
-        const parserError = xml.querySelector("parsererror");
-        if (parserError) {
-          throw new Error("XMLのパースに失敗しました。");
+    fetch(weatherApiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.cod !== 200) {
+          throw new Error(`APIエラー: ${data.message}`);
         }
 
-        const timeSeries = xml.querySelector("timeSeries");
-        if (!timeSeries) {
-          throw new Error("天気データが見つかりません。");
-        }
+        const weather = data.weather[0].description;
+        const temperature = data.main.temp;
+        const humidity = data.main.humidity;
+        const windSpeed = data.wind.speed;
+        const icon = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
 
-        const time = timeSeries.querySelector("time");
-        if (!time) {
-          throw new Error("時間データが見つかりません。");
-        }
-
-        const weather = time.querySelector("weather").textContent;
-        const temperatureElement = time.querySelector("temperature");
-        let temperature = "情報なし";
-        if (temperatureElement) {
-          temperature = temperatureElement.textContent;
-        }
-
-        // アイコンの取得
-        const iconClass = weatherIcons[weather] || "bi-question-circle-fill";
-
-        // 表示
         weatherDiv.innerHTML = `
           <p class="card-text fs-4">
-            <i class="bi ${iconClass}"></i> 天気: ${weather}
+            <img src="${icon}" alt="${weather}" width="50" height="50">
+            天気: ${weather}
           </p>
           <p class="card-text fs-4">気温: ${temperature}°C</p>
+          <p class="card-text fs-4">湿度: ${humidity}%</p>
+          <p class="card-text fs-4">風速: ${windSpeed} m/s</p>
         `;
       })
       .catch((error) => {
@@ -89,9 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // 天気更新ボタンの設定
+  refreshButton.addEventListener("click", fetchWeather);
+
   // 初回データ取得
   fetchWeather();
 
-  // 5分ごとにデータを更新
+  // 5分ごとに天気情報を更新
   setInterval(fetchWeather, 5 * 60 * 1000);
 });

@@ -1,0 +1,137 @@
+/* Google Fontsを適用 */
+body {
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(
+    to right,
+    #ece9e6,
+    #ffffff
+  ); /* グラデーション背景 */
+  color: #212529; /* 標準のフォント色 */
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0; /* デフォルトのマージンをリセット */
+}
+
+/* ダークモード時のスタイル */
+body.dark-mode {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+}
+
+/* ダークモード時のカードのスタイル */
+body.dark-mode .card {
+  background-color: #34495e;
+  color: #ecf0f1;
+}
+
+/* ダークモード時のボタンのスタイル */
+body.dark-mode .btn-outline-secondary {
+  border-color: #ecf0f1;
+  color: #ecf0f1;
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+  background-color: #ecf0f1;
+  color: #34495e;
+}
+
+body.dark-mode .btn-primary {
+  background-color: #1abc9c;
+  border-color: #16a085;
+}
+
+body.dark-mode .btn-primary:hover {
+  background-color: #16a085;
+  border-color: #149174;
+}
+
+/* レスポンシブデザインの調整 */
+@media (max-width: 576px) {
+  .card-title {
+    font-size: 2rem;
+  }
+
+  .card-text {
+    font-size: 1.3rem;
+  }
+
+  #toggle-theme,
+  #refresh {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .d-flex.justify-content-center.mt-4 {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* カードの丸みと透明度を強調 */
+.card {
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.95); /* 半透明の白 */
+  max-width: 600px;
+  width: 100%;
+}
+
+/* ボタンのホバーエフェクト */
+.btn-primary:hover,
+.btn-outline-secondary:hover {
+  transform: scale(1.05);
+}
+
+/* アイコンのマージン */
+.card-text img {
+  margin-right: 10px;
+}
+
+/* スクロールを防止 */
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* フォントサイズの調整 */
+.card-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.card-text {
+  font-size: 1.5rem;
+}
+
+/* カードのサイズ調整 */
+.card {
+  max-width: 600px;
+  width: 100%;
+}
+
+/* レスポンシブなカードの幅調整 */
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+  }
+}
+
+@media (min-width: 769px) {
+  .card {
+    width: 60%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card {
+    width: 40%;
+  }
+}
+
+/* フッターのスタイル（必要な場合） */
+footer {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  color: #6c757d;
+}
